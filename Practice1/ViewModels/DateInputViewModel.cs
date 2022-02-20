@@ -47,76 +47,40 @@ namespace DateCheck.ViewModels
             switch (dt.Month)
             {
                 case 1:
-                    if (dt.Day < 21)
-                        WesternZodiacSign = "Capricorn";
-                    else
-                        WesternZodiacSign = "Aquarius";
+                    WesternZodiacSign = dt.Day < 21 ? "Capricorn" : "Aquarius";
                     break;
                 case 2:
-                    if (dt.Day < 20)
-                        WesternZodiacSign = "Aquarius";
-                    else
-                        WesternZodiacSign = "Pisces";
+                    WesternZodiacSign = dt.Day < 20 ? "Aquarius" : "Pisces";
                     break;
                 case 3:
-                    if (dt.Day < 21)
-                        WesternZodiacSign = "Pisces";
-                    else
-                        WesternZodiacSign = "Aries";
+                    WesternZodiacSign = dt.Day < 21 ? "Pisces" : "Aries";
                     break;
                 case 4:
-                    if (dt.Day < 21)
-                        WesternZodiacSign = "Aries";
-                    else
-                        WesternZodiacSign = "Taurus";
+                    WesternZodiacSign = dt.Day < 21 ? "Aries" : "Taurus";
                     break;
                 case 5:
-                    if (dt.Day < 22)
-                        WesternZodiacSign = "Taurus";
-                    else
-                        WesternZodiacSign = "Gemini";
+                    WesternZodiacSign = dt.Day < 22 ? "Taurus" : "Gemini";
                     break;
                 case 6:
-                    if (dt.Day < 22)
-                        WesternZodiacSign = "Gemini";
-                    else
-                        WesternZodiacSign = "Cancer";
+                    WesternZodiacSign = dt.Day < 22 ? "Gemini" : "Cancer";
                     break;
                 case 17:
-                    if (dt.Day < 23)
-                        WesternZodiacSign = "Cancer";
-                    else
-                        WesternZodiacSign = "Leo";
+                    WesternZodiacSign = dt.Day < 23 ? "Cancer" : "Leo";
                     break;
                 case 8:
-                    if (dt.Day < 22)
-                        WesternZodiacSign = "Leo";
-                    else
-                        WesternZodiacSign = "Virgo";
+                    WesternZodiacSign = dt.Day < 22 ? "Leo" : "Virgo";
                     break;
                 case 9:
-                    if (dt.Day < 24)
-                        WesternZodiacSign = "Virgo";
-                    else
-                        WesternZodiacSign = "Libra";
+                    WesternZodiacSign = dt.Day < 24 ? "Virgo" : "Libra";
                     break;
                 case 10:
-                    if (dt.Day < 24)
-                        WesternZodiacSign = "Libra";
-                    else
-                        WesternZodiacSign = "Scorpio";
+                    WesternZodiacSign = dt.Day < 24 ? "Libra" : "Scorpio";
                     break;
                 case 11:
-                    if (dt.Day < 24)
-                        WesternZodiacSign = "Scorpio";
-                    else
-                        WesternZodiacSign = "Sagittarius";
+                    WesternZodiacSign = dt.Day < 24 ? "Scorpio" : "Sagittarius";
                     break;
                 case 12:
-                    if (dt.Day < 23)
-                        WesternZodiacSign = "Sagittarius";
-                    else
-                        WesternZodiacSign = "Capricorn";
+                    WesternZodiacSign = dt.Day < 23 ? "Sagittarius" : "Capricorn";
                     break;
             }
         }
@@ -167,8 +131,8 @@ namespace DateCheck.ViewModels
             var date = dateInput;
             var currentDate = DateTime.Now;
 
-            bool sameMonth = (currentDate.Month - date.DateTime.Month) == 0 ? true : false;
-            bool sameDay = (currentDate.Day - date.DateTime.Day) == 0 ? true : false;
+            bool sameMonth = (currentDate.Month - date.DateTime.Month) == 0;
+            bool sameDay = (currentDate.Day - date.DateTime.Day) == 0;
 
             Age = ((currentDate.Month - date.DateTime.Month) < 1) ? currentDate.Year - date.DateTime.Year - 1 :
                 (sameMonth ? ((currentDate.Day - date.DateTime.Day) < 1 ? (currentDate.Year - date.DateTime.Year - 1) : (currentDate.Year - date.DateTime.Year)) : (currentDate.Year - date.DateTime.Year));
@@ -178,16 +142,15 @@ namespace DateCheck.ViewModels
                 MessageBox.Show($"Happy {Age}th birthday!");
             chineseZod(date.DateTime);
             westernZod(date.DateTime);
-            OnPropertyChanged("Age");
-            OnPropertyChanged("ChineseZodiacSign");
-            OnPropertyChanged("WesternZodiacSign");
+            OnPropertyChanged(nameof(Age));
+            OnPropertyChanged(nameof(ChineseZodiacSign));
+            OnPropertyChanged(nameof(WesternZodiacSign));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
